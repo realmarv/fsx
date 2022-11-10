@@ -276,11 +276,13 @@ let refNugetLibTestNewFormatWithVersion =
     Path.Combine(TestDir.FullName, "testRefNugetLibNewFormatWithVersion.fsx")
     |> FileInfo
 
-Process.Execute(
-    CreateCommand(refNugetLibTestNewFormatWithVersion, String.Empty),
-    Echo.All
-)
-|> UnwrapDefault
+Process
+    .Execute(
+        CreateCommand(refNugetLibTestNewFormatWithVersion, String.Empty),
+        Echo.All
+    )
+    .UnwrapDefault()
+|> ignore<string>
 
 
 let cmdLineArgsTest =
