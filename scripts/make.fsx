@@ -86,11 +86,42 @@ let FindBuildTool() : string * string =
         failwith
             "cannot find buildTool because this script is not ready for Unix yet"
     | Misc.Platform.Windows ->
-#if !LEGACY_FRAMEWORK
-        "dotnet", "build"
-#else
-        (Process.VsWhere "MSBuild\\**\\Bin\\MSBuild.exe"), String.Empty
-#endif
+        //we need to call "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -find MSBuild\**\Bin\MSBuild.exe
+
+        let programFiles =
+            Environment.GetFolderPath Environment.SpecialFolder.ProgramFilesX86
+
+        let vswhereExe =
+            Path.Combine(
+                programFiles,
+                "Microsoft Visual Studio",
+                "Installer",
+                "vswhere.exe"
+            )
+            |> FileInfo
+
+        ConfigCommandCheck(List.singleton vswhereExe.FullName) |> ignore
+
+        let vswhereCmd =
+            {
+                Command = vswhereExe.FullName
+                Arguments = "-find MSBuild\\**\\Bin\\MSBuild.exe"
+            }
+
+        let procResult = Process.Execute(vswhereCmd, Echo.Off)
+
+        let msbuildPath =
+            procResult
+                .UnwrapDefault()
+                .Split(
+                    Array.singleton Environment.NewLine,
+                    StringSplitOptions.RemoveEmptyEntries
+                )
+                .First()
+                .Trim()
+
+        msbuildPath
+
 
 let BuildSolution
     (buildTool: string * string)
