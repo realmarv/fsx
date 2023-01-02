@@ -424,13 +424,16 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - name: build in DEBUG mode
-      run: .\make.bat
+      run: |
+        .\make.bat
+        ls
 
     - name: install
       run: |
         # to clean Debug artifacts first (make install builds in Release config)
         git clean -fdx
 
+        ls
         .\make.bat install
 
     - name: run tests
