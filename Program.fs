@@ -6,13 +6,10 @@ open System.Text
 open System.Linq
 open System.Diagnostics
 
-#r "System.Configuration"
 open System.Configuration
 
-#load "Fsdk/Misc.fs"
-#load "Fsdk/Process.fs"
-
 open Fsdk
+open Fsdk.Misc
 open Fsdk.Process
 
 type FsxScriptDiscoveryInfo =
