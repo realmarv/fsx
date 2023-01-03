@@ -223,11 +223,29 @@ match maybeTarget with
         Path.Combine(fsxInstallationDir.FullName, fsiBat.Name)
     )
 
-    let fsxLauncher = Path.Combine(RootDir.FullName, "launcher.fsx") |> FileInfo
+
+    let assemblyExecutableExtension =
+    #if !LEGACY_FRAMEWORK
+        "dll"
+    #else
+        "exe"
+    #endif
+
+    let fsxLauncher = Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", sprintf "fsx.%s" assemblyExecutableExtension) |> FileInfo
 
     File.Copy(
         fsxLauncher.FullName,
-        Path.Combine(fsxInstallationDir.FullName, "fsx.fsx")
+        Path.Combine(fsxInstallationDir.FullName, sprintf "fsx.%s" assemblyExecutableExtension)
+    )
+
+    File.Copy(
+        Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", "fsx.runtimeconfig.json"),
+        Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.json")
+    )
+
+    File.Copy(
+        Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", "fsx.runtimeconfig.dev.json"),
+        Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.dev.json")
     )
 
     File.Copy(fsxBat.FullName, fsxBatDestination.FullName)
