@@ -6,19 +6,24 @@ open System.Text
 open System.Linq
 open System.Diagnostics
 
-#r "System.Configuration"
 open System.Configuration
 
-#load "Fsdk/Misc.fs"
-#load "Fsdk/Process.fs"
-
 open Fsdk
+open Fsdk.Misc
 open Fsdk.Process
 
 type FsxScriptDiscoveryInfo =
     | FsxFsxNotFoundYet
     | FsxFsxFoundButNoFsxScriptFoundYet
     | FsxFsxFoundAndFsxScriptNameSupplied of _userScriptName: string
+
+let assemblyExecutableExtension =
+#if !LEGACY_FRAMEWORK
+    "dll"
+#else
+    "exe"
+#endif
+
 
 let SplitArgsIntoFsxcArgsAndUserArgs() : seq<string> * string * seq<string> =
     let rec userArgsInternal
@@ -32,14 +37,14 @@ let SplitArgsIntoFsxcArgsAndUserArgs() : seq<string> * string * seq<string> =
             let finalFscxArgs = fsxcArgsSoFar |> List.rev |> Seq.ofList
             let finalUserArgs = userArgsSoFar |> List.rev |> Seq.ofList
             finalFscxArgs, userScriptName, finalUserArgs
-        | [], _ -> failwith "fsx.fsx not found"
+        | [], _ -> failwith (sprintf "fsx.%s not found" assemblyExecutableExtension)
         | head :: tail, fsxScriptDiscoverySoFar ->
             match fsxScriptDiscoverySoFar, head with
             | FsxFsxNotFoundYet, arg when
                 arg
                     .Split(Path.DirectorySeparatorChar)
                     .Last()
-                    .EndsWith "fsx.fsx"
+                    .EndsWith (sprintf "fsx.%s" assemblyExecutableExtension)
                 ->
                 if not fsxcArgsSoFar.IsEmpty then
                     failwith
@@ -101,13 +106,6 @@ let SplitArgsIntoFsxcArgsAndUserArgs() : seq<string> * string * seq<string> =
     |> List.ofArray
     |> userArgsInternal FsxFsxNotFoundYet List.empty List.empty
 
-let assemblyExecutableExtension =
-#if !LEGACY_FRAMEWORK
-    "dll"
-#else
-    "exe"
-#endif
-
 let InjectBinSubfolderInPath(userScript: FileInfo) =
     if not(userScript.FullName.EndsWith ".fsx") then
         failwithf
@@ -134,13 +132,13 @@ let InjectBinSubfolderInPath(userScript: FileInfo) =
     FileInfo binPath
 
 
-let thisScriptFileName = __SOURCE_FILE__
+let thisScriptFileName = ((new FileInfo (System.Reflection.Assembly.GetExecutingAssembly().Location)).Directory)
 
-if thisScriptFileName <> "fsx.fsx" then
-    failwith
-        "this launcher should have been renamed to fsx.fsx at install time; please report this bug"
+// if thisScriptFileName <> "fsx.dll" then
+//     failwith
+//         "this launcher should have been renamed to fsx.dll at install time; please report this bug"
 
-let sourceDir = DirectoryInfo __SOURCE_DIRECTORY__
+let sourceDir = ((new FileInfo (System.Reflection.Assembly.GetExecutingAssembly().Location)).Directory) //DirectoryInfo __SOURCE_DIRECTORY__
 
 let fsxcAssembly =
     Path.Combine(
@@ -151,7 +149,7 @@ let fsxcAssembly =
 
 if not fsxcAssembly.Exists then
     failwith
-        "fsxc assembly not found in the same folder as this launcher; please report this bug"
+        (sprintf "fsxc assembly not found in %A; please report this bug" fsxcAssembly.FullName)
 
 let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
