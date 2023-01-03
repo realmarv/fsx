@@ -223,7 +223,7 @@ match maybeTarget with
         Path.Combine(fsxInstallationDir.FullName, fsiBat.Name)
     )
 
-    let fsxLauncher = Path.Combine(RootDir.FullName, "launcher.fsx") |> FileInfo
+    let fsxLauncher = Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", "fsx.dll") |> FileInfo
 
     File.Copy(
         fsxLauncher.FullName,
