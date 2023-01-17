@@ -470,7 +470,7 @@ jobs:
       run: |
         ls
         # to clean Debug artifacts first (make install builds in Release config)
-        # git clean -fdx
+        git clean -fdx
         ls
         echo '-------'
         ls bin
