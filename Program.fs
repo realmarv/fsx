@@ -131,7 +131,7 @@ let InjectBinSubfolderInPath(userScript: FileInfo) =
     FileInfo binPath
 
 
-let thisScriptFileName = __SOURCE_FILE__
+let thisScriptFileName = ((new FileInfo (System.Reflection.Assembly.GetExecutingAssembly().Location)).Directory)
 
 // if thisScriptFileName <> "fsx.dll" then
 //     failwith
