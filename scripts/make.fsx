@@ -227,7 +227,7 @@ match maybeTarget with
 
     File.Copy(
         fsxLauncher.FullName,
-        Path.Combine(fsxInstallationDir.FullName, "fsx.fsx")
+        Path.Combine(fsxInstallationDir.FullName, "fsx.dll")
     )
 
     File.Copy(fsxBat.FullName, fsxBatDestination.FullName)

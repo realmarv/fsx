@@ -29,14 +29,14 @@ let SplitArgsIntoFsxcArgsAndUserArgs() : seq<string> * string * seq<string> =
             let finalFscxArgs = fsxcArgsSoFar |> List.rev |> Seq.ofList
             let finalUserArgs = userArgsSoFar |> List.rev |> Seq.ofList
             finalFscxArgs, userScriptName, finalUserArgs
-        | [], _ -> failwith "fsx.fsx not found"
+        | [], _ -> failwith "fsx.dll not found"
         | head :: tail, fsxScriptDiscoverySoFar ->
             match fsxScriptDiscoverySoFar, head with
             | FsxFsxNotFoundYet, arg when
                 arg
                     .Split(Path.DirectorySeparatorChar)
                     .Last()
-                    .EndsWith "fsx.fsx"
+                    .EndsWith "fsx.dll"
                 ->
                 if not fsxcArgsSoFar.IsEmpty then
                     failwith
@@ -133,9 +133,9 @@ let InjectBinSubfolderInPath(userScript: FileInfo) =
 
 let thisScriptFileName = __SOURCE_FILE__
 
-if thisScriptFileName <> "fsx.fsx" then
+if thisScriptFileName <> "fsx.dll" then
     failwith
-        "this launcher should have been renamed to fsx.fsx at install time; please report this bug"
+        "this launcher should have been renamed to fsx.dll at install time; please report this bug"
 
 let sourceDir = DirectoryInfo __SOURCE_DIRECTORY__
 
