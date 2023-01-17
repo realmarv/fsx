@@ -145,7 +145,7 @@ let fsxcAssembly =
         sprintf "fsxc.%s" assemblyExecutableExtension
     )
     |> FileInfo
-
+printfn "%A" (System.Reflection.Assembly.GetExecutingAssembly().Location);
 if not fsxcAssembly.Exists then
     failwith
         (sprintf "fsxc assembly not found in %A; please report this bug" fsxcAssembly.FullName)
