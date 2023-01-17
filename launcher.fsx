@@ -151,7 +151,7 @@ let fsxcAssembly =
 
 if not fsxcAssembly.Exists then
     failwith
-        "fsxc assembly not found in the same folder as this launcher; please report this bug"
+        (sprintf "fsxc assembly not found in %A; please report this bug" fsxcAssembly)
 
 let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
