@@ -230,6 +230,11 @@ match maybeTarget with
         Path.Combine(fsxInstallationDir.FullName, "fsx.dll")
     )
 
+    File.Copy(
+        fsxLauncher.FullName,
+        Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.json")
+    )
+
     File.Copy(fsxBat.FullName, fsxBatDestination.FullName)
 
     let fsdkInstallDir =
