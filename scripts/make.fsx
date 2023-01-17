@@ -231,8 +231,13 @@ match maybeTarget with
     )
 
     File.Copy(
-        fsxLauncher.FullName,
+        Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", "fsx.runtimeconfig.json"),
         Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.json")
+    )
+
+    File.Copy(
+        Path.Combine(RootDir.FullName, "bin", "Release", "net6.0", "fsx.runtimeconfig.dev.json"),
+        Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.dev.json")
     )
 
     File.Copy(fsxBat.FullName, fsxBatDestination.FullName)
