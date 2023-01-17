@@ -149,9 +149,10 @@ let fsxcAssembly =
     )
     |> FileInfo
 
+printfn "==>%A<==" fsxcAssembly.FullName
 if not fsxcAssembly.Exists then
     failwith
-        (sprintf "fsxc assembly not found in %A; please report this bug" fsxcAssembly)
+        (sprintf "fsxc assembly not found in %A; please report this bug" fsxcAssembly.FullName)
 
 let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
