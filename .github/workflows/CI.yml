@@ -422,17 +422,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: build in DEBUG mode
       run: .\make-legacy.bat
-    - name: copy fsx dll file
-      run: |
-        ls
-        echo '-------'
-        ls bin
-        echo '-------'
-        ls bin/Release
-        echo '-------'
-        sudo cp bin/Release/net6.0/fsx.dll .
-        echo '-------'
-        ls
+
     - name: install
       run: |
         # to clean Debug artifacts first (make install builds in Release config)
