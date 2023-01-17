@@ -133,9 +133,9 @@ let InjectBinSubfolderInPath(userScript: FileInfo) =
 
 let thisScriptFileName = __SOURCE_FILE__
 
-if thisScriptFileName <> "fsx.dll" then
-    failwith
-        "this launcher should have been renamed to fsx.dll at install time; please report this bug"
+// if thisScriptFileName <> "fsx.dll" then
+//     failwith
+//         "this launcher should have been renamed to fsx.dll at install time; please report this bug"
 
 let sourceDir = DirectoryInfo __SOURCE_DIRECTORY__
 
