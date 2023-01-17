@@ -468,18 +468,8 @@ jobs:
         ls
     - name: install
       run: |
-        ls
         # to clean Debug artifacts first (make install builds in Release config)
         git clean -fdx
-        ls
-        echo '-------'
-        ls bin
-        echo '-------'
-        ls bin\Debug
-        echo '-------'
-        copy bin\Debug\net6.0\fsx.dll .
-        echo '-------'
-        ls
         .\make.bat install
 
     - name: run tests
