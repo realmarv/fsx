@@ -137,7 +137,7 @@ let thisScriptFileName = __SOURCE_FILE__
 //     failwith
 //         "this launcher should have been renamed to fsx.dll at install time; please report this bug"
 
-let sourceDir = DirectoryInfo __SOURCE_DIRECTORY__
+let sourceDir = ((new FileInfo (System.Reflection.Assembly.GetExecutingAssembly().Location)).Directory) //DirectoryInfo __SOURCE_DIRECTORY__
 
 let fsxcAssembly =
     Path.Combine(
