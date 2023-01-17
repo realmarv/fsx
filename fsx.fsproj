@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <GenerateRuntimeConfigDevFile>true</GenerateRuntimeConfigDevFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,5 +18,6 @@
     </Compile>
     <Compile Include="Program.fs" />
   </ItemGroup>
+
 
 </Project>
