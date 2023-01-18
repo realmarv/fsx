@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{FD764CDA
 		Tools\gitPush1by1.fsx = Tools\gitPush1by1.fsx
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsx", "fsx.fsproj", "{534A9824-CD0A-47FC-AEF0-9A5F04021507}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsx", "fsx\fsx.fsproj", "{534A9824-CD0A-47FC-AEF0-9A5F04021507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
