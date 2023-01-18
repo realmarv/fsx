@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Fsdk\Misc.fs">
-      <Link>Fsdk\Misc.fs</Link>
+    <Compile Include="..\Fsdk\Misc.fs">
+      <Link>..\Fsdk\Misc.fs</Link>
     </Compile>
-    <Compile Include="Fsdk\Process.fs">
-      <Link>Fsdk\Process.fs</Link>
+    <Compile Include="..\Fsdk\Process.fs">
+      <Link>..\Fsdk\Process.fs</Link>
     </Compile>
-    <Compile Include="Fsdk\Network.fs">
-      <Link>Fsdk\Network.fs</Link>
+    <Compile Include="..\Fsdk\Network.fs">
+      <Link>..\Fsdk\Network.fs</Link>
     </Compile>
     <Compile Include="Program.fs" />
   </ItemGroup>
