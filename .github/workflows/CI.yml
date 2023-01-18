@@ -131,17 +131,6 @@ jobs:
 
     - name: run tests
       run: make check
-    - name: copy fsx dll file
-      run: |
-        ls
-        echo '-------'
-        ls bin
-        echo '-------'
-        ls bin/Release
-        echo '-------'
-        sudo cp bin/Release/net6.0/fsx.dll .
-        echo '-------'
-        ls
     - name: compile this repo's .fsx scripts with fsx
       run: sudo ./compileFSharpScripts.fsx
 
