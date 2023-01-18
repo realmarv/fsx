@@ -10,4 +10,4 @@ IF NOT EXIST "%FSXFSX%" (
     ECHO "%FSXFSX% not found" && EXIT /b 1
 )
 
-"%FSIBAT%" "%FSXFSX%" %*
+"%FSXFSX%" %*
