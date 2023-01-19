@@ -195,6 +195,28 @@ let fsxBatDestination =
 
 let maybeTarget = GatherTarget(Misc.FsxOnlyArguments())
 
+let assemblyExecutableExtension =
+#if !LEGACY_FRAMEWORK
+    "dll"
+#else
+    "exe"
+#endif
+
+let releaseFolderPath = Path.Combine(RootDir.FullName, "fsx", "bin", "Release")
+
+#if !LEGACY_FRAMEWORK
+let finalReleaseFolderPath = Path.Combine(releaseFolderPath, "net6.0")
+#else
+let finalReleaseFolderPath = releaseFolderPath
+#endif
+
+let fsxLauncher =
+    Path.Combine(
+        finalReleaseFolderPath,
+        sprintf "fsx.%s" assemblyExecutableExtension
+    )
+    |> FileInfo
+
 match maybeTarget with
 
 | None
@@ -227,12 +249,20 @@ match maybeTarget with
         Path.Combine(fsxInstallationDir.FullName, fsiBat.Name)
     )
 
-    let fsxLauncher = Path.Combine(RootDir.FullName, "launcher.fsx") |> FileInfo
-
     File.Copy(
         fsxLauncher.FullName,
-        Path.Combine(fsxInstallationDir.FullName, "fsx.fsx")
+        Path.Combine(
+            fsxInstallationDir.FullName,
+            sprintf "fsx.%s" assemblyExecutableExtension
+        )
     )
+
+#if !LEGACY_FRAMEWORK
+    File.Copy(
+        Path.Combine(finalReleaseFolderPath, "fsx.runtimeconfig.json"),
+        Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.json")
+    )
+#endif
 
     File.Copy(fsxBat.FullName, fsxBatDestination.FullName)
 
