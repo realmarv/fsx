@@ -202,16 +202,15 @@ let assemblyExecutableExtension =
     "exe"
 #endif
 
-let releaseFolderPath = Path.Combine(RootDir.FullName, "fsx", "bin", "Release")
-
-#if !LEGACY_FRAMEWORK
-releaseFolderPath = Path.Combine(releaseFolderPath, "net6.0")
-
-#endif
-
 let fsxLauncher =
     Path.Combine(
-        releaseFolderPath,
+        RootDir.FullName,
+        "fsx",
+        "bin",
+        "Release",
+#if !LEGACY_FRAMEWORK
+        "net6.0",
+#endif
         sprintf "fsx.%s" assemblyExecutableExtension
     )
     |> FileInfo
@@ -258,7 +257,14 @@ match maybeTarget with
 
 #if !LEGACY_FRAMEWORK
     File.Copy(
-        Path.Combine(releaseFolderPath, "fsx.runtimeconfig.json"),
+        Path.Combine(
+            RootDir.FullName,
+            "fsx",
+            "bin",
+            "Release",
+            "net6.0",
+            "fsx.runtimeconfig.json"
+        ),
         Path.Combine(fsxInstallationDir.FullName, "fsx.runtimeconfig.json")
     )
 #endif

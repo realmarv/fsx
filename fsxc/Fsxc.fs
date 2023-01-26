@@ -45,7 +45,7 @@ exception NoScriptProvided
 module Program =
 
 #if LEGACY_FRAMEWORK
-    let internal nugetExeTmpLocation: Lazy<FileInfo> =
+    let public nugetExeTmpLocation: Lazy<FileInfo> =
         lazy
             (let tmpDir = System.IO.Path.GetTempPath() |> DirectoryInfo
 
