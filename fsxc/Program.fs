@@ -6,8 +6,8 @@ let main argv =
         Program.Main argv
     finally
 #if LEGACY_FRAMEWORK
-        if nugetExeTmpLocation.IsValueCreated then
-            nugetExeTmpLocation.Value.Delete()
+        if Program.nugetExeTmpLocation.IsValueCreated then
+            Program.nugetExeTmpLocation.Value.Delete()
 #else
         ()
 #endif
