@@ -6,8 +6,6 @@ open System.Text
 open System.Linq
 open System.Diagnostics
 
-open System.Configuration
-
 open Fsdk
 open Fsdk.Misc
 open Fsdk.Process
@@ -167,16 +165,9 @@ let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
 let userScriptFile = FileInfo userScript
 
-#if !LEGACY_FRAMEWORK
 let fsxcMainArguemnts = List.toArray((Seq.toList fsxcArgs) @ [ userScript ])
 
-#else
-
-printfn "userScript: %A" userScript
-let fsxcMainArguemnts = List.toArray((Seq.toList fsxcArgs) @ [ userScript ])
-System.Console.WriteLine(sprintf "fsxcMainArguemnts %A" fsxcMainArguemnts)
-#endif
-FSX.Compiler.Program.Main(fsxcMainArguemnts) |> ignore
+Program.Main fsxcMainArguemnts |> ignore
 
 let finalLaunch =
     {
