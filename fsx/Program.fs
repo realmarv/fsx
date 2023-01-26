@@ -168,13 +168,13 @@ let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 let userScriptFile = FileInfo userScript
 
 #if !LEGACY_FRAMEWORK
-let fsxcMainArguemnts = List.toArray ((Seq.toList fsxcArgs) @ [userScript])
+let fsxcMainArguemnts = List.toArray((Seq.toList fsxcArgs) @ [ userScript ])
 
 #else
 
 printfn "userScript: %A" userScript
-let fsxcMainArguemnts = List.toArray ((Seq.toList fsxcArgs) @ [userScript])
-System.Console.WriteLine (sprintf "fsxcMainArguemnts %A" fsxcMainArguemnts)
+let fsxcMainArguemnts = List.toArray((Seq.toList fsxcArgs) @ [ userScript ])
+System.Console.WriteLine(sprintf "fsxcMainArguemnts %A" fsxcMainArguemnts)
 #endif
 FSX.Compiler.Program.Main(fsxcMainArguemnts) |> ignore
 
