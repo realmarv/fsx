@@ -165,9 +165,9 @@ let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
 let userScriptFile = FileInfo userScript
 
-let fsxcMainArguemnts = List.toArray((Seq.toList fsxcArgs) @ [ userScript ])
+let fsxcMainArguments = Seq.append fsxcArgs (Seq.singleton userScript) |> Seq.toArray
 
-Program.Main fsxcMainArguemnts |> ignore
+Program.Main fsxcMainArguments |> ignore
 
 let finalLaunch =
     {
