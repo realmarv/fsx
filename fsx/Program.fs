@@ -6,11 +6,10 @@ open System.Text
 open System.Linq
 open System.Diagnostics
 
-open System.Configuration
-
 open Fsdk
 open Fsdk.Misc
 open Fsdk.Process
+open FSX.Compiler
 
 type FsxScriptDiscoveryInfo =
     | FsxFsxNotFoundYet
@@ -155,38 +154,14 @@ let fsxcAssembly =
     )
     |> FileInfo
 
-if not fsxcAssembly.Exists then
-    failwith(
-        sprintf
-            "fsxc assembly not found in %A; please report this bug"
-            fsxcAssembly.Directory.FullName
-    )
-
 let fsxcArgs, userScript, userArgs = SplitArgsIntoFsxcArgsAndUserArgs()
 
 let userScriptFile = FileInfo userScript
 
-#if !LEGACY_FRAMEWORK
-let fsxcCmd =
-    {
-        Command = "dotnet"
-        Arguments =
-            sprintf
-                "\"%s\" %s %s"
-                fsxcAssembly.FullName
-                (String.Join(" ", fsxcArgs))
-                userScript
-    }
-#else
-let fsxcCmd =
-    {
-        Command = fsxcAssembly.FullName
-        Arguments = sprintf "%s %s" (String.Join(" ", fsxcArgs)) userScript
-    }
-#endif
+let fsxcMainArguments =
+    Seq.append fsxcArgs (Seq.singleton userScript) |> Seq.toArray
 
-let proc = Process.Execute(fsxcCmd, Echo.Off)
-proc.UnwrapDefault() |> ignore<string>
+Program.Main fsxcMainArguments |> ignore
 
 let finalLaunch =
     {

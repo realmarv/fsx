@@ -45,7 +45,7 @@ exception NoScriptProvided
 module Program =
 
 #if LEGACY_FRAMEWORK
-    let private nugetExeTmpLocation: Lazy<FileInfo> =
+    let internal nugetExeTmpLocation: Lazy<FileInfo> =
         lazy
             (let tmpDir = System.IO.Path.GetTempPath() |> DirectoryInfo
 
@@ -356,7 +356,7 @@ module Program =
                                 <| Path.Combine(script.Directory.FullName, ref)
 
                             if not fileInfo.Exists then
-                            // must be a BCL lib (e.g. #r "System.Xml.Linq.dll")
+                                // must be a BCL lib (e.g. #r "System.Xml.Linq.dll")
                                 ()
                             else
                                 yield fileInfo.LastWriteTime
@@ -917,15 +917,3 @@ let fsi = { CommandLineArgs = System.Environment.GetCommandLineArgs() }
             Console.WriteLine "Up-to-date binary found, skipping compilation"
 
         0 // return an integer exit code
-
-    [<EntryPoint>]
-    let main argv =
-        try
-            Main argv
-        finally
-#if LEGACY_FRAMEWORK
-            if nugetExeTmpLocation.IsValueCreated then
-                nugetExeTmpLocation.Value.Delete()
-#else
-            ()
-#endif
